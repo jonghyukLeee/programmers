@@ -1,3 +1,5 @@
+package Greedy;
+
 public class greedy_1 {
     /**
     *프로그래머스 코딩테스트 고득점 kit > 탐욕법(Greedy) > 체육복
