@@ -3,6 +3,7 @@ package Greedy;
 public class greedy_2 {
     /**
      * 프로그래머스 코딩테스트 고득점 kit > 탐욕법(Greedy) > 큰 수 만들기
+     *
      * 문제 설명
      * 어떤 숫자에서 k개의 수를 제거했을 때 얻을 수 있는 가장 큰 숫자를 구하려 합니다.
      *
