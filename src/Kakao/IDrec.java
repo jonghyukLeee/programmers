@@ -16,6 +16,7 @@ public class IDrec {
         for(int i = 1; i < 8; ++i)
         {
             answer = func(answer,i);
+            System.out.printf("%d단계의 결과: %s\n",i,answer);
         }
         return answer;
     }
@@ -51,16 +52,17 @@ public class IDrec {
                 for(int i = 0; i < s.length(); ++i)
                 {
                     tmp = s.charAt(i);
-                    if(tmp == '.' && check)
+                    if(tmp == '.')
                     {
-                        sb.append(tmp);
-                        check= false;
+                        if(check)
+                        {
+                            sb.append(tmp);
+                            check= false;
+                        }
+                        continue;
                     }
-                    else
-                    {
                         sb.append(tmp);
                         check = true;
-                    }
                 }
                 tmpStr = sb.toString();
                 sb.delete(0,sb.length());
@@ -69,8 +71,14 @@ public class IDrec {
             case 4:
             {
                 sb.append(s);
-                if(sb.charAt(0) == '.') sb.deleteCharAt(0);
-                if(sb.charAt(s.length()-1) == '.') sb.deleteCharAt(s.length()-1);
+                try {
+                    if (sb.charAt(0) == '.') sb.deleteCharAt(0);
+                    if (sb.charAt(sb.length() - 1) == '.') sb.deleteCharAt(sb.length() - 1);
+                }catch(StringIndexOutOfBoundsException e)
+                {
+                    sb.delete(0,sb.length());
+                    return "";
+                }
                 tmpStr = sb.toString();
                 sb.delete(0,sb.length());
                 return tmpStr;
