@@ -15,6 +15,7 @@ public class IDrec {
         String answer = id;
         for(int i = 1; i < 8; ++i)
         {
+            System.out.printf("%d단계 입니다.",i);
             answer = func(answer,i);
         }
         return answer;
@@ -105,7 +106,10 @@ public class IDrec {
                 sb.delete(0,sb.length());
                 return tmpStr;
             }
-            default: return "";
+            default:
+            {
+                return "";
+            }
         } // end of switch
     }
     static int check(char c)
