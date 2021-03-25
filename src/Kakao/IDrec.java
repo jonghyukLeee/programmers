@@ -105,11 +105,8 @@ public class IDrec {
                 sb.delete(0,sb.length());
                 return tmpStr;
             }
-            default:
-            {
-                return "default";
-            }
         } // end of switch
+        return "";
     }
     static int check(char c)
     {
