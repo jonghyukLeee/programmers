@@ -33,12 +33,15 @@ public class Q1 {
     static int[] solution(int[] progresses, int[] speeds) {
         int[] answer = new int[progresses.length];
         Stack<Integer> stack = new Stack<>();
-        for(int i = 0; i < progresses.length; ++i)
+
+        for(int i = progresses.length-1; i >= 0; --i)
         {
             stack.push(progresses[i]);
         }
-        while(stack.isEmpty())
+
+        while(!stack.isEmpty())
         {
+            int tmp = stack.pop();
 
         }
         return answer;
