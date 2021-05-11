@@ -35,6 +35,39 @@ public class Q2 {
         int answer = 0;
         Queue<Print> q = new LinkedList<>();
 
+        for(int i = 0; i < priorities.length; ++i)
+        {
+            q.add(new Print(priorities[i],i));
+        }
+        int cnt = 0;
+        while(!q.isEmpty())
+        {
+            int tmp = q.peek().priority;
+            boolean flag = false;
+            for(Print i : q)
+            {
+                if(tmp < i.priority)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if(flag)
+            {
+                q.add(q.poll());
+            }
+            else
+            {
+                Print res = q.poll();
+                cnt++;
+                if(res.loc == location)
+                {
+                    answer = cnt;
+                    break;
+                }
+            }
+
+        }
         return answer;
     }
 }
