@@ -40,17 +40,16 @@ public class Q3 {
         while(!q.isEmpty())
         {
             Truck cur = q.poll();
-            if(!q.isEmpty() && cur.weight + q.peek().weight <= weight)
+            if(bridge(cur))
             {
-                Truck next = q.peek();
+
             }
-            while(true)
-            {
-                if(++cur.time == bridge_length) break;
-            }
-            answer += cur.time;
+
         }
         return answer;
     }
+    static boolean bridge(Truck truck)
+    {
 
+    }
 }
