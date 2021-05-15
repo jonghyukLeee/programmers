@@ -33,6 +33,24 @@ public class Q3 {
     static int solution(int bridge_length, int weight, int[] truck_weights) {
         int answer = 0;
         Queue<Truck> q = new LinkedList<>();
+        for(int i : truck_weights)
+        {
+            q.add(new Truck(i));
+        }
+        while(!q.isEmpty())
+        {
+            Truck cur = q.poll();
+            if(!q.isEmpty() && cur.weight + q.peek().weight <= weight)
+            {
+                Truck next = q.peek();
+            }
+            while(true)
+            {
+                if(++cur.time == bridge_length) break;
+            }
+            answer += cur.time;
+        }
         return answer;
     }
+
 }
