@@ -17,10 +17,15 @@ class Truck
 }
 public class Q3 {
     static int [] trucks;
+    static Queue<Truck> bridge;
+    static int length;
+    static int answer,lim;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int length = Integer.parseInt(br.readLine());
+        bridge = new LinkedList<>();
+        length = Integer.parseInt(br.readLine());
         int weight_lim = Integer.parseInt(br.readLine());
+        lim = 0;
         int t = Integer.parseInt(br.readLine());
         trucks = new int[t];
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -31,7 +36,7 @@ public class Q3 {
         System.out.print(solution(length,weight_lim,trucks));
     }
     static int solution(int bridge_length, int weight, int[] truck_weights) {
-        int answer = 0;
+        answer = 0;
         Queue<Truck> q = new LinkedList<>();
         for(int i : truck_weights)
         {
@@ -39,17 +44,34 @@ public class Q3 {
         }
         while(!q.isEmpty())
         {
-            Truck cur = q.poll();
-            if(bridge(cur))
+            if(bridge.isEmpty())
             {
-
+                bridge.add(q.poll());
+                bridge();
             }
-
+            Truck tmp = q.peek();
+            if(!q.isEmpty() && tmp.weight + bridge.peek().weight <= weight)
+            {
+                bridge.add(q.poll());
+            }
+            bridge();
         }
-        return answer;
+        while(!bridge.isEmpty())
+        {
+            bridge();
+        }
+        return answer+1;
     }
-    static boolean bridge(Truck truck)
+    static void bridge()
     {
-
+            answer++;
+            for(Truck tmp : bridge)
+            {
+                tmp.time++;
+            }
+            if(!bridge.isEmpty() && bridge.peek().time == length)
+            {
+                bridge.poll();
+            }
     }
 }
