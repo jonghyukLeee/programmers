@@ -49,11 +49,9 @@ public class Q2 {
         {
             list.add(new Job(i[0],i[1]));
         }
-        Collections.sort(list,new Comparator<Job>()
-        {
-            public int compare(Job j1, Job j2)
-            {
-                if(j1.start == j2.start) return j1.end - j2.end;
+        list.sort(new Comparator<Job>() {
+            public int compare(Job j1, Job j2) {
+                if (j1.start == j2.start) return j1.end - j2.end;
                 return j1.start - j2.start;
             }
         });
