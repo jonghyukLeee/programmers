@@ -72,7 +72,6 @@ public class Q2 {
                 Job tmp = q.poll();
                 cTime += tmp.end;
                 answer += cTime - tmp.start;
-                System.out.printf("(%d,%d)-> 경과된 시간 : %d, 현재 시간 : %d\n", tmp.start, tmp.end, cTime - tmp.start, cTime);
                 cnt++;
             }
             if(!list.isEmpty() && list.peek().start > cTime) cTime++;
