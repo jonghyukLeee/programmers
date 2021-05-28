@@ -3,10 +3,7 @@ package Sort;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Q2 {
     static int [] numbers;
@@ -24,20 +21,21 @@ public class Q2 {
     }
     static String solution(int[] numbers) {
         StringBuilder answer = new StringBuilder();
-        PriorityQueue<String> q = new PriorityQueue<>(Collections.reverseOrder());
+        ArrayList<String> al = new ArrayList<>();
         for(int i : numbers)
         {
-            String tmp = i+"";
-            if(tmp.length() > 1)
-            {
-                String [] tmpArr = tmp.split("");
-                q.addAll(Arrays.asList(tmpArr));
-            }
-            else q.add(tmp);
+            al.add(String.valueOf(i));
         }
-        while(!q.isEmpty())
+        Collections.sort(al, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return (o2+o1).compareTo(o1+o2);
+            }
+        });
+
+        for(String tmp : al)
         {
-            answer.append(q.poll());
+            answer.append(tmp);
         }
         return answer.toString();
     }
