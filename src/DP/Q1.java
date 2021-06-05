@@ -30,17 +30,18 @@ public class Q1 {
     static int solution(int N, int number) {
         int answer = Integer.MAX_VALUE; // 5 12
         Queue<Num> q = new LinkedList<>();
-        q.add(new Num(0,N));
+        q.add(new Num(1,N));
         while(!q.isEmpty())
         {
             Num tmp = q.poll();
-            if(tmp.val == number)
+            int val = tmp.val;
+            if(tmp.cnt > 8) break;
+            if(val == number)
             {
                 answer = Math.min(answer,tmp.cnt);
                 continue;
             }
-            int val = tmp.val; //5
-            for(int i = 0; i < 4; ++i) // + - / *
+            for(int i = 0; i < 5; ++i) // + - / *
             {
                 switch(i)
                 {
@@ -64,10 +65,18 @@ public class Q1 {
                         q.add(new Num(tmp.cnt+1,val*N));
                         break;
                     }
+                    case 4:
+                    {
+                        if(val/10 == 0)
+                        {
+                            q.add(new Num(tmp.cnt+1,val*11));
+                        }
+                        break;
+                    }
                 }
             }
         }
-        return answer;
+        return answer > 8 ? -1 : answer;
     }
 
 }
