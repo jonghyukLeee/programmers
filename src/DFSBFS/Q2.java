@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 public class Q2 {
     static int [][] computers;
+    static boolean [] isVis;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -24,33 +25,28 @@ public class Q2 {
         System.out.print(solution(n,computers));
     }
     static int solution(int n, int[][] computers) {
-        int answer = 1;
-        ArrayList<Integer> parents = new ArrayList<>();
+        int answer = 0;
+        isVis = new boolean[n];
+
         for(int i = 0; i < n; ++i)
         {
-            parents.add(i);
-        }
-        for(int i = 0; i < computers.length; ++i)
-        {
-            for(int j = i+1; j < computers[0].length; ++j)
+            if(!isVis[i])
             {
-                if(computers[i][j] > 0)
-                {
-                    parents.set(j,parents.get(i));
-                }
-            }
-        }
-        int tmp = parents.get(0);
-        for(Integer i : parents)
-        {
-            System.out.printf("%d ",i);
-            if(tmp != i)
-            {
-                tmp = i;
+                dfs(i);
                 answer++;
             }
         }
-        System.out.println();
         return answer;
+    }
+    static void dfs(int idx)
+    {
+        isVis[idx] = true;
+        for(int i = 0; i < computers[0].length; ++i)
+        {
+            if(idx != i && computers[idx][i] == 1 && !isVis[i])
+            {
+                dfs(i);
+            }
+        }
     }
 }
