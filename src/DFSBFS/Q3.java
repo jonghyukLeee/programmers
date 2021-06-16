@@ -3,6 +3,7 @@ package DFSBFS;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Q3 {
@@ -24,7 +25,7 @@ public class Q3 {
     }
     static int solution(String begin, String target, String[] words) {
         int answer = 0;
-
+        ArrayList<String> al = new ArrayList<>();
         return answer;
     }
 }
