@@ -1,11 +1,12 @@
 package Kakao;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.List;
 
-//matches 말고 다른 메서드 찾아봐야할듯 ! (미완성)
 class Food
 {
     String menu;
@@ -23,8 +24,7 @@ class Food
 public class Menu {
     static String [] orders;
     static int [] course;
-    static boolean [] isVis;
-    static ArrayList<Food> al;
+    static HashMap<String,Integer> hm;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -58,43 +58,59 @@ public class Menu {
         ArrayList<String> answerAl = new ArrayList<>();
         for(int len : course)
         {
+            hm = new HashMap<>();
             for(int i = 0; i < orders.length; ++i)
             {
                 if(len > orders[i].length()) continue;
-
-                al = new ArrayList<>();
-                isVis = new boolean[orders[i].length()];
                 comb(orders[i],"",0,len);
 
-                for(Food tmp : al)
+                Set<String> keys = hm.keySet();
+                Iterator<String> it = keys.iterator();
+
+                while(it.hasNext())
                 {
-                    String addedStr = addStar(tmp.menu,len);
-                    for(int idx = i+1; idx < orders.length; ++idx)
+                    String menuStr = it.next();
+                    if(hm.get(menuStr) > 1) continue;
+                    nextMenu : for(int idx = i+1; idx < orders.length; ++idx)
                     {
-                        if(orders[idx].matches(".*."+addedStr+".*"))
+                        for(int menuIdx = 0; menuIdx < len; ++menuIdx)
                         {
-                            System.out.printf(orders[idx]+" contains "+addedStr+"\n");
-                            tmp.addCnt(tmp.cnt);
+                            if(!orders[idx].contains(menuStr.charAt(menuIdx)+"")) continue nextMenu;
                         }
+                        hm.put(menuStr,hm.get(menuStr)+1);
                     }
-
                 }
-                //소트
-                al.sort(new Comparator<Food>() {
-                    @Override
-                    public int compare(Food o1, Food o2) {
-                        return o2.cnt - o1.cnt;
-                    }
-                });
-                int maxCnt = al.get(0).cnt;
 
-                for(Food tmp : al)
+            }
+            List<Map.Entry<String,Integer>> tmpList = new LinkedList<>(hm.entrySet());
+            tmpList.sort(new Comparator<Map.Entry<String, Integer>>() {
+                @Override
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                    return o2.getValue() - o1.getValue();
+                }
+            });
+
+            if(!tmpList.isEmpty())
+            {
+                int maxVal = tmpList.get(0).getValue();
+                for(Map.Entry<String,Integer> tmp : tmpList)
                 {
-                    if(tmp.cnt < 2) break;
-                    if(tmp.cnt != maxCnt) break;
-                    answerAl.add(tmp.menu);
+                    int val = tmp.getValue();
+                    if(val < 2 || val != maxVal) break;
+                    answerAl.add(tmp.getKey());
+                    hm.replace(tmp.getKey(),0);
                 }
             }
+
+        }
+        for(int k = 0; k < answerAl.size(); ++k)
+        {
+            char [] tmpArr = answerAl.get(k).toCharArray();
+            Arrays.sort(tmpArr);
+            answerAl.set(k,Arrays.toString(tmpArr)
+                    .replace("[","")
+                    .replace("]","")
+                    .replace(", ",""));
         }
         Collections.sort(answerAl);
         answer = new String[answerAl.size()];
@@ -110,7 +126,7 @@ public class Menu {
     {
         if(len == 0) // 조합완성
         {
-            al.add(new Food(curStr,0));
+            hm.putIfAbsent(curStr, 1);
             return;
         }
 
@@ -118,16 +134,5 @@ public class Menu {
         {
             comb(target,curStr+target.charAt(i),i+1,len-1);
         }
-    }
-    static String addStar(String str, int len)
-    {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < len; ++i)
-        {
-            sb.append(str.charAt(i));
-            if(i == len-1) continue;
-            sb.append(".");
-        }
-        return sb.toString();
     }
 }
