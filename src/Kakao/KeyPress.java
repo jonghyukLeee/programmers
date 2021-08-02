@@ -1,44 +1,36 @@
 package Kakao;
 
-import java.awt.geom.Line2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 class Loc
 {
-    int x,y,dist;
-    char key;
-
-    public Loc(){};
-    public Loc(int x, int y,int dist,char key)
+    int x,y;
+    public Loc(int x, int y)
     {
         this.x = x;
         this.y = y;
-        this.dist = dist;
-        this.key = key;
     }
 }
 public class KeyPress {
     static int [] numbers;
-    static char [][] keypad = {{'1','2','3'},{'4','5','6'},{'7','8','9'},{'*','0','#'}};
-    static boolean [][] isVis;
-    static int [] dx = {0,0,-1,1};
-    static int [] dy = {-1,1,0,0};
+    static Loc [] keypad = {new Loc(3,1),new Loc(0,0),new Loc(0,1),
+            new Loc(0,2),new Loc(1,0),new Loc(1,1),new Loc(1,2),
+            new Loc(2,0),new Loc(2,1),new Loc(2,2)};
     static Loc left;
     static Loc right;
     static String hand;
+    static StringBuilder sb;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
         numbers = new int[n];
-        left = new Loc(3,0,0,'*');
-        right = new Loc(3,2,0,'#');
+        left = new Loc(3,0);
+        right = new Loc(3,2);
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; ++i)
@@ -50,111 +42,59 @@ public class KeyPress {
         System.out.print(solution(numbers,hand));
     }
     static String solution(int[] numbers, String hand) {
-        StringBuilder sb = new StringBuilder();
+        sb = new StringBuilder();
         for(int i : numbers)
         {
-            char end = Character.forDigit(i,10);
-
-            switch(end)
+            switch(i)
             {
-                case '1' :
+                case 1:
+                case 4:
+                case 7:
                 {
-                    sb.append("L");
-                    left = new Loc(0,0,0,'1');
+                    click(i,"left");
                     break;
                 }
-                case '4' :
+                case 3:
+                case 6:
+                case 9:
                 {
-                    sb.append("L");
-                    left = new Loc(1,0,0,'4');
-                    break;
-                }
-                case '7' :
-                {
-                    sb.append("L");
-                    left = new Loc(2,0,0,'7');
-                    break;
-                }
-                case '3' :
-                {
-                    sb.append("R");
-                    right = new Loc(0,2,0,'3');
-                    break;
-                }
-                case '6' :
-                {
-                    sb.append("R");
-                    right = new Loc(1,2,0,'6');
-                    break;
-                }
-                case '9' :
-                {
-                    sb.append("R");
-                    right = new Loc(2,2,0,'9');
+                    click(i,"right");
                     break;
                 }
                 default :
                 {
-                    Loc tmpLeft = click(left,end);
-                    Loc tmpRight = click(right,end);
+                    int endX = keypad[i].x;
+                    int endY = keypad[i].y;
 
-                    if(tmpLeft.dist == tmpRight.dist)
+                    double fromLeft = Math.pow(Math.abs(endX - left.x),2) + Math.pow(Math.abs(endY - left.y),2);
+                    double fromRight = Math.pow(Math.abs(endX - right.x),2) + Math.pow(Math.abs(endY - right.y),2);
+
+                    if(fromRight == fromLeft)
                     {
-                        if(hand.equals("left"))
-                        {
-                            sb.append("L");
-                            left = new Loc(tmpLeft.x,tmpLeft.y,0,keypad[tmpLeft.x][tmpLeft.y]);
-                        }
-                        else
-                        {
-                            sb.append("R");
-                            right = new Loc(tmpRight.x,tmpRight.y,0,keypad[tmpRight.x][tmpRight.y]);
-                        }
+                        click(i,hand);
                     }
-                    else if(tmpLeft.dist < tmpRight.dist)
+                    else if(fromRight > fromLeft)
                     {
-                        sb.append("L");
-                        left = new Loc(tmpLeft.x,tmpLeft.y,0,keypad[tmpLeft.x][tmpLeft.y]);
+                        click(i,"left");
                     }
-                    else
-                    {
-                        sb.append("R");
-                        right = new Loc(tmpRight.x,tmpRight.y,0,keypad[tmpRight.x][tmpRight.y]);
-                    }
+                    else click(i,"right");
                 }
             }
 
         }
         return sb.toString();
     }
-    static Loc click(Loc start, char end)
-    {
-        Queue<Loc> q = new LinkedList<>();
-        q.add(start);
-        isVis = new boolean[4][3];
-        while(!q.isEmpty())
-        {
-            Loc tmp = q.poll();
-            int curX = tmp.x,curY = tmp.y;
-            if(tmp.key == end)
-            {
-                return tmp;
-            }
-
-            for(int idx = 0; idx < 4; ++idx)
-            {
-                int x = curX + dx[idx];
-                int y = curY + dy[idx];
-
-                if(!isValid(x,y) || isVis[x][y]) continue;
-                q.add(new Loc(x,y,tmp.dist+1,keypad[x][y]));
-            }
-        }
-        return new Loc();
-    }
-
-    static boolean isValid(int x, int y)
-    {
-        return x >= 0 && y >= 0 && x < keypad.length && y < keypad[0].length;
-    }
+   static void click(int i, String lr)
+   {
+       if(lr.equals("left"))
+       {
+           sb.append("L");
+           left = keypad[i];
+       }
+       else
+       {
+           sb.append("R");
+           right = keypad[i];
+       }
+   }
 }
