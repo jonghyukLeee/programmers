@@ -1,7 +1,5 @@
 package Kakao2021;
 
-import java.util.Locale;
-
 public class Q1 {
     public static void main(String[] args) {
         String str = "=.=";
