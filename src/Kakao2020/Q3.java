@@ -2,6 +2,8 @@ package Kakao2020;
 
 public class Q3 {
     static int n;
+    static int [][] map;
+    static int maxI = -1, maxJ = -1;
     public static void main(String[] args) {
 
     }
@@ -9,29 +11,61 @@ public class Q3 {
         boolean answer = false;
         n = lock.length;
         int mapLen = (3 * n) - 2;
-        int [][] map = new int[mapLen][mapLen];
+        map = new int[mapLen][mapLen];
+
 
         for(int i = 0; i < n; ++i)
         {
             for(int j = 0; j < n; ++j)
             {
                 if(lock[i][j] == 1) map[i+n-1][j+n-1] = 1;
+                else
+                {
+                    if(maxI < i+n-1) maxI = i+n-1;
+                    if(maxJ < j+n-1) maxJ = j+n-1;
+                }
             }
         }
 
-        for(int i = 0; i < map.length-n; ++i)
+        for(int t = 0; t < 4; ++t)
         {
-            int [][] tmp = rotate(key);
-            for(int j = 0; j < map.length-n; ++j)
+            int [][] tmpKey = rotate(key);
+            if(unlock(tmpKey))
             {
-
+                answer = true;
+                break;
             }
         }
         return answer;
     }
-    static boolean unlock(int [][] key,int idx)
+    static boolean unlock(int [][] key)
     {
-
+        for(int i = 0; i < map.length-1; ++i)
+        {
+            if((i+ key.length) <= maxI) continue;
+            for(int j = 0; j < map.length-1; ++j)
+            {
+                if((j + key.length) <= maxJ) continue;
+                for(int k = i; k < i+key.length; ++k)
+                {
+                    for(int l = j; l < j+key.length; ++l)
+                    {
+                        if(inArr(k,l))
+                        {
+                            if(map[k][l] == 0)
+                            {
+                                if(key[k-i][l-j] == 0) return false;
+                            }
+                            else
+                            {
+                                if(key[k-i][l-j] == 1) return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
     static int [][] rotate(int [][] key)
     {
@@ -46,5 +80,9 @@ public class Q3 {
             }
         }
         return arr;
+    }
+    static boolean inArr(int i, int j)
+    {
+        return i <= n-1 || i > n+2 || j <= n-1 || j > n+2;
     }
 }
