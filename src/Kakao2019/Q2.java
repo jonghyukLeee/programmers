@@ -33,6 +33,7 @@ public class Q2 {
     public static void main(String[] args) {
         int [] stages = {4,4,4,4,4};
         for(int i : solution(4,stages)) System.out.print(i+" ");
+        String s = "asdfasf";
     }
     static int [] solution(int N, int [] stages)
     {
