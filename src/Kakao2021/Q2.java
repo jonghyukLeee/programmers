@@ -1,5 +1,6 @@
 package Kakao2021;
 
+import java.sql.Array;
 import java.util.*;
 
 public class Q2 {
@@ -23,6 +24,13 @@ public class Q2 {
                 comb(order,"",0,courseNum);
                 // 메뉴 조합완료
             }
+            List<String> list = new ArrayList<>(hm.keySet());
+            Collections.sort(list, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return 0;
+                }
+            });
 
             for(String key : hm.keySet()) if(hm.get(key) == maxValue && maxValue > 1) q.add(key);
 
