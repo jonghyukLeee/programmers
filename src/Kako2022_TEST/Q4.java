@@ -1,5 +1,7 @@
 package Kako2022_TEST;
 
+//양궁문제
+//라이언이 한발 더쏘면 득점
 public class Q4 {
     public static void main(String[] args) {
 
@@ -8,22 +10,8 @@ public class Q4 {
         int[] answer = {};
         int cnt;
 
-        for(int i = 0 ; i < info.length; ++i)
-        {
-            int [] ryan = new int[info.length];
-            cnt = n;
-            loop : for(int j = 0; j < info.length; ++j)
-            {
-                while(ryan[j] > info[j])
-                {
-                    ryan[j]++;
-                    cnt--;
-                    if(cnt == 0) break loop;
-                }
-            }
-            int rPoint,aPoint;
 
-        }
+
         return answer;
     }
 }
