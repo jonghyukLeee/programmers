@@ -26,7 +26,6 @@ public class Q77484 {
         //최대는 가려진 수가 모두 당첨번호일때
         int max = correctCnt + zeroCnt;
 
-        int[] answer = {rank[max],rank[min]};
-        return answer;
+        return new int[] {rank[max],rank[min]};
     }
 }
