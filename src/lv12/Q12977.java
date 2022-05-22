@@ -19,7 +19,7 @@ public class Q12977 {
         isNotPrime[0] = isNotPrime[1] = true;
         setPrime();
 
-        dfs(0,0,0);
+        comb(0,0,0);
         return answer;
     }
     static void setPrime() {
@@ -31,14 +31,14 @@ public class Q12977 {
             }
         }
     }
-    static void dfs(int idx, int sum,int depth) {
+    static void comb(int idx, int sum,int depth) {
         if (depth == 3){
             if (!isNotPrime[sum]) answer++;
             return;
         }
 
         for (int i = idx; i < size; i++){
-            dfs(i+1,sum + n[i], depth + 1);
+            comb(i+1,sum + n[i], depth + 1);
         }
     }
 }
