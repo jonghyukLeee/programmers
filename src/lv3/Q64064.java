@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class Q64064 {
     static int bannedLen;
     static List<String> [] list;
-    static Set<String> resultSet;
+    static Set<Set<String>> resultSet;
     static int solution(String[] user_id, String[] banned_id) {
         bannedLen = banned_id.length;
         list = new List[bannedLen];
@@ -21,26 +21,20 @@ public class Q64064 {
             }
         }
 
-        comb(0, new TreeSet<>());
+        dfs(0, new HashSet<>());
         return resultSet.size();
     }
-    static void comb(int idx, TreeSet<String> set) {
-        if (set.size() == bannedLen) {
-            StringBuilder sb = new StringBuilder();
-            for (String id : set) {
-                sb.append(id);
-            }
-            resultSet.add(sb.toString());
+    static void dfs(int idx, HashSet<String> set) {
+        if (idx == bannedLen) {
+            resultSet.add(new HashSet<>(set));
             return;
         }
 
-        if (idx >= bannedLen) return;
-
         for (String id : list[idx]) {
             if (!set.contains(id)) {
-                TreeSet<String> tmpSet = new TreeSet<>(set);
-                tmpSet.add(id);
-                comb(idx + 1, tmpSet);
+                set.add(id);
+                dfs(idx + 1, set);
+                set.remove(id);
             }
         }
     }
