@@ -1,7 +1,7 @@
 package lv12;
 
 public class Q92335 {
-    public static void main(String[] args) {수
+    public static void main(String[] args) {
         System.out.println(solution(110011, 10));
     }
     static int solution(int n, int k) {
